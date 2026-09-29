@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from './pageObjects/LoginPage';
 
+//prueba de agregar un item aleatorio al carrito de compras y validar que los datos del 
+// item sean correctos
 test('Add random item to shopping car', async ({ page }) => {
 
   // indica el sitio web a probar
@@ -54,26 +56,27 @@ test('Add random item to shopping car', async ({ page }) => {
   await expect(page.getByRole('heading',{name:'Thank you for your order!'})).toBeVisible()
 
 });
-
+//Prueba de login con el page object LoginPage y validacion de login exitoso con screenshot
 test('LoginPage Test', async ({ page }) => {
   // indica el sitio web a probar
   await page.goto('https://www.saucedemo.com/')
-
   
   const login = new LoginPage(page)
   await login.loginWithcredentials('standard_user','secret_sauce' )
   await login.checkSuccessfulLogin()
 
-  //await page.screenshot({path: 'screenshots/sauceDemo/login-successful.png'})
+  await page.screenshot({path: 'screenshots/sauceDemo/login-successful.png'})
 
   
  
 
 });
 
+//Prueba utilizadondo un archivo .env para cargar la url de la pagina de SauceDemo 
+// y realizar el login
 test('Environment Test', async ({ page }) => {
-  // indica el sitio web a probar
-  //await page.goto(process.env.URL)
+  // toma la url del archivo .env seteado y la utiliza para abrir la pagina de SauceDemo
+  await page.goto(process.env.URL as string)
   await page.pause()
   const login = new LoginPage(page)
   await login.loginWithcredentials('standard_user','secret_sauce' )

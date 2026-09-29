@@ -2,8 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 
 /**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
+ * Carga las variables de env/.env.<NODE_ENV>; si NODE_ENV no está definido,
+ * usa env/.env.dev y expone las variables cargadas en process.env.
  */
 require('dotenv').config(
   {
@@ -33,7 +33,7 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    headless: true,
+    headless: false,
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
 
@@ -44,9 +44,21 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+
+    {
+      name: 'setup', 
+      testMatch: /.*\.setup\.ts/,
+    },
+
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'] ,
+        contextOptions: {
+          permissions: ["clipboard-read", "clipboard-write"],
+          //storageState: 'playwright/.auth/user.json'
+        },
+      },
+      //dependencies: ['setup']
     },
     /*
     {

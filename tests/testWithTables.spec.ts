@@ -1,6 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 
-test('test web table', async ({ page }, testInfo) => {
+test('web table test', async ({ page }, testInfo) => {
   // Navega a la página que contiene la tabla HTML
   await page.goto('https://www.w3schools.com/html/html_tables.asp');
   //await page.pause();
